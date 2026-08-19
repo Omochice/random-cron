@@ -8,7 +8,7 @@ repository = "https://github.com/Omochice/random-cron"
 
 license = "Zlib"
 
-keywords = [ ]
+keywords = [ "cli", "cron" ]
 
 description = "Generate a random cron expression for a schedule"
 
