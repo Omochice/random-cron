@@ -1,3 +1,4 @@
-// Blackbox tests run against the package's public API. Use `@random_cron` to import.
-// Prefer high-level behaviors over implementation details.
-// Run `moon test` to execute and `moon test --update` to refresh snapshots.
+///|
+test "\"daily\" parses to the daily schedule" {
+  inspect(@random_cron.parse_schedule("daily"), content="Some(Daily)")
+}
