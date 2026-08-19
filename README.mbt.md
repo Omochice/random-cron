@@ -26,8 +26,16 @@ place the message in that file.
 
 ## Building
 
-The program is built for the native backend, which the module pins, so no
-target has to be named on the command line.
+The manifest uses the format recent MoonBit toolchains expect, which older ones
+do not recognise at all, so the toolchain to build with is the one the
+development shell supplies.
+
+```console
+nix develop
+```
+
+Inside it, the program is built for the native backend, which the module pins,
+so no target has to be named on the command line.
 
 ```console
 moon build
