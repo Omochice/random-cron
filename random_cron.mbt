@@ -25,8 +25,9 @@ pub fn parse_schedule(word : String) -> Schedule? {
 pub fn generate(schedule : Schedule, pick : (Int) -> Int) -> String {
   let minute = pick(60)
   let hour = pick(24)
-  match schedule {
-    Daily => "\{minute} \{hour} * * *"
-    Weekly => "\{minute} \{hour} * * \{pick(7)}"
+  let day_of_week = match schedule {
+    Daily => "*"
+    Weekly => pick(7).to_string()
   }
+  "\{minute} \{hour} * * \{day_of_week}"
 }
