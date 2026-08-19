@@ -133,6 +133,17 @@
               packageOverrides.treefmt = treefmt.config.build.wrapper;
               stages = [ "pre-push" ];
             };
+          }
+          // pkgs.lib.optionalAttrs supportsMoonbit {
+            # Not on pre-commit: the test-driven cycle commits a failing test
+            # before the code that satisfies it, and those commits do not build.
+            moon-check = {
+              enable = true;
+              name = "moon check";
+              entry = "${moonbit}/bin/moon check";
+              pass_filenames = false;
+              stages = [ "pre-push" ];
+            };
           };
         };
         devPackages = rec {
