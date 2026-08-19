@@ -49,7 +49,7 @@ stdenv.mkDerivation {
 
   meta = {
     description = "Generate a random cron expression for a schedule";
-    license = lib.licenses.asl20;
+    license = lib.licenses.zlib;
     mainProgram = "random-cron";
     platforms = [
       # keep-sorted start

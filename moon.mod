@@ -6,7 +6,7 @@ readme = "README.md"
 
 repository = "https://github.com/Omochice/random-cron"
 
-license = "Apache-2.0"
+license = "Zlib"
 
 keywords = [ ]
 
