@@ -2,6 +2,8 @@
 package "Omochice/random_cron"
 
 // Values
+pub fn generate(Schedule, (Int) -> Int) -> String
+
 pub fn parse_schedule(String) -> Schedule?
 
 // Errors

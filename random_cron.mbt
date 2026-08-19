@@ -16,3 +16,16 @@ pub fn parse_schedule(word : String) -> Schedule? {
     _ => None
   }
 }
+
+///|
+/// Generates a cron expression for `schedule`.
+///
+/// `pick` draws a random integer in `0 ..< limit`. It is injected so that the
+/// caller owns the source of randomness and callers under test can pin it.
+pub fn generate(schedule : Schedule, pick : (Int) -> Int) -> String {
+  let minute = pick(60)
+  let hour = pick(24)
+  match schedule {
+    Daily | Weekly => "\{minute} \{hour} * * *"
+  }
+}
