@@ -44,3 +44,12 @@ test "a weekly schedule at the lowest random values" {
 test "a weekly schedule at the highest random values" {
   assert_eq(@random_cron.generate(@random_cron.Weekly, highest), "59 23 * * 6")
 }
+
+///|
+test "the adapter never returns a value outside the requested bound" {
+  let pick = @random_cron.picker(@random.Rand::new())
+  for _ in 0..<200 {
+    let day_of_week = pick(7)
+    assert_true(day_of_week >= 0 && day_of_week < 7)
+  }
+}
