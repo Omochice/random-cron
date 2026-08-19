@@ -1,0 +1,22 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "packages": {
+    ".": {
+      "release-type": "simple",
+      "changelog-path": "CHANGELOG.md",
+      "draft": true,
+      "include-component-in-tag": false,
+      "extra-files": [
+        {
+          "type": "toml",
+          "path": "moon.mod",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "generic",
+          "path": "random_cron.mbt"
+        }
+      ]
+    }
+  }
+}
