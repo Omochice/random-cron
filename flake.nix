@@ -188,7 +188,7 @@
                 cd $src
                 actionlint .github/**/*.{yaml,yml}
                 ghalint run
-                zizmor .github/workflows .github/actions
+                zizmor .github/
                 touch $out
               '';
           formatting = treefmt.config.build.check self;
