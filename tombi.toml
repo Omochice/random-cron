@@ -1,0 +1,4 @@
+[format.rules]
+# `moon fmt` rewrites `moon.mod` with this spacing, and the two formatters would
+# otherwise take turns undoing each other.
+array-bracket-space-width = 1

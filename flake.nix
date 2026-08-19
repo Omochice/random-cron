@@ -56,30 +56,22 @@
         random-cron = pkgs.callPackage ./package.nix { inherit moonbit; };
         treefmt = treefmt-nix.lib.evalModule pkgs (
           { ... }:
-          let
-            rumdlConfig = (pkgs.formats.toml { }).generate "rumdl.toml" {
-              # keep-sorted start
-              MD004.style = "dash";
-              MD007.indent = 4;
-              MD007.style = "fixed";
-              MD041.enabled = false;
-              MD049.style = "underscore";
-              MD050.style = "asterisk";
-              MD055.style = "leading-and-trailing";
-              MD060.enabled = true;
-              MD060.style = "aligned";
-              MD077.enabled = false;
-              global.line_length = 0;
-              # keep-sorted end
-            };
-          in
           {
             settings.global.excludes = [ ];
             settings.formatter = {
-              rumdl-format.options = [
-                "--config"
-                (toString rumdlConfig)
-              ];
+              tombi = {
+                command = pkgs.lib.getExe pkgs.tombi;
+                # Not left online: the formatting check runs in a sandbox with
+                # no network, where fetching the schema catalog fails the run.
+                options = [
+                  "format"
+                  "--offline"
+                ];
+                includes = [
+                  "*.toml"
+                  "moon.mod"
+                ];
+              };
             }
             // pkgs.lib.optionalAttrs supportsMoonbit {
               moonfmt = {
@@ -93,7 +85,6 @@
               keep-sorted.enable = true;
               nixfmt.enable = true;
               rumdl-format.enable = true;
-              toml-sort.enable = true;
               yamlfmt = {
                 enable = true;
                 settings = {
