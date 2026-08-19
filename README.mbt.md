@@ -30,9 +30,21 @@ The program is built for the native backend, which the module pins, so no
 target has to be named on the command line.
 
 ```console
-$ moon build
-$ ./_build/native/release/build/cmd/main/main.exe daily
+moon build
+./_build/native/release/build/cmd/main/main.exe daily
 ```
+
+The flake builds the same binary through a MoonBit toolchain taken from
+[moonbit-overlay](https://github.com/moonbit-community/moonbit-overlay), so no
+toolchain has to be installed beforehand.
+
+```console
+nix build
+./result/bin/random-cron daily
+```
+
+That toolchain is distributed as binaries for `x86_64-linux`, `x86_64-darwin`
+and `aarch64-darwin` only, so the package is exposed on those systems alone.
 
 ## Library
 
