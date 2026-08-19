@@ -1,0 +1,7 @@
+// import {
+//   "Omochice/random_cron" @lib,
+// }
+
+options(
+  "is-main": true,
+)
