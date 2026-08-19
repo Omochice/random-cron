@@ -1,0 +1,26 @@
+name: check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions: {}
+
+jobs:
+  place-holder:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo Hi
+  status-check:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    needs:
+      - place-holder
+    permissions: {}
+    if: always()
+    steps:
+      - if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1
