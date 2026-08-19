@@ -33,8 +33,7 @@
       moonbit-overlay,
     }:
     let
-      # Not every default system: the overlay throws on evaluation elsewhere,
-      # and `x86_64-darwin`, which it does cover, was dropped by nixpkgs 26.11.
+      # moonbit overlays supports only below:
       moonbitSystems = [
         # keep-sorted start
         "aarch64-darwin"
@@ -54,7 +53,6 @@
         };
         supportsMoonbit = builtins.elem system moonbitSystems;
         moonbit = pkgs.moonbit-bin.moonbit.latest;
-        random-cron = pkgs.callPackage ./package.nix { inherit moonbit; };
         treefmt = treefmt-nix.lib.evalModule pkgs (
           { ... }:
           let
@@ -144,12 +142,10 @@
             };
           }
           // pkgs.lib.optionalAttrs supportsMoonbit {
-            # Not on pre-commit: the test-driven cycle commits a failing test
-            # before the code that satisfies it, and those commits do not build.
             moon-check = {
               enable = true;
               name = "moon check";
-              entry = "${moonbit}/bin/moon check";
+              entry = "${pkgs.lib.getExe' moonbit "moon"} check";
               pass_filenames = false;
               stages = [ "pre-push" ];
             };
@@ -162,8 +158,6 @@
             ghalint
             zizmor
           ];
-          # Not whatever is installed: older toolchains do not recognise the
-          # manifest format the project uses.
           toolchain = nixpkgs.lib.optionals supportsMoonbit [ moonbit ];
           # keep-sorted end
           default = [
@@ -207,11 +201,6 @@
                 touch $out
               '';
           # keep-sorted end
-        }
-        // nixpkgs.lib.optionalAttrs supportsMoonbit {
-          # Not a check of its own: `nix flake check` builds `checks` but only
-          # evaluates `packages`, and the package already runs `moon test`.
-          build = random-cron;
         };
       in
       {
@@ -228,12 +217,6 @@
         ];
         formatter = treefmt.config.build.wrapper;
         # keep-sorted end
-      }
-      // nixpkgs.lib.optionalAttrs supportsMoonbit {
-        packages = {
-          default = random-cron;
-          inherit random-cron;
-        };
       }
     );
 }
