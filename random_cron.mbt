@@ -31,3 +31,11 @@ pub fn generate(schedule : Schedule, pick : (Int) -> Int) -> String {
   }
   "\{minute} \{hour} * * \{day_of_week}"
 }
+
+///|
+/// Adapts `rand` into the drawing function `generate` expects.
+///
+/// The returned function draws a value in `0 ..< limit`.
+pub fn picker(rand : @random.Rand) -> (Int) -> Int {
+  fn(limit) { rand.int(limit~) }
+}

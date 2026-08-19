@@ -1,10 +1,16 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "Omochice/random_cron"
 
+import {
+  "moonbitlang/core/random",
+}
+
 // Values
 pub fn generate(Schedule, (Int) -> Int) -> String
 
 pub fn parse_schedule(String) -> Schedule?
+
+pub fn picker(@random.Rand) -> (Int) -> Int
 
 // Errors
 
