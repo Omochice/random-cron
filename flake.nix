@@ -199,7 +199,9 @@
       }
       // nixpkgs.lib.optionalAttrs (builtins.elem system moonbitSystems) (
         let
-          random-cron = pkgs.callPackage ./package.nix { };
+          random-cron = pkgs.callPackage ./package.nix {
+            moonbit = pkgs.moonbit-bin.moonbit.latest;
+          };
         in
         {
           packages = {

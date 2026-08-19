@@ -1,7 +1,7 @@
 {
   lib,
   stdenv,
-  moonbit-bin,
+  moonbit,
 }:
 stdenv.mkDerivation {
   pname = "random-cron";
@@ -10,7 +10,7 @@ stdenv.mkDerivation {
   src = ./.;
 
   nativeBuildInputs = [
-    moonbit-bin.moonbit.latest
+    moonbit
   ];
 
   # `moon` keeps its caches under $HOME, which the sandbox leaves pointing at an
