@@ -69,3 +69,9 @@ test "an invocation with no schedule argument is rejected" {
   let outcome = try? @random_cron.command().parse(argv=[])
   assert_true(outcome is Err(_))
 }
+
+///|
+test "an invocation naming a schedule yields that word" {
+  let matches = @random_cron.command().parse(argv=["weekly"])
+  assert_eq(matches.values.get("schedule"), Some(["weekly"]))
+}
