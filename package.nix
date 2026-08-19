@@ -5,7 +5,13 @@
 }:
 stdenv.mkDerivation {
   pname = "random-cron";
-  version = "0.1.0";
+  # The release manifest is the only place the number is edited, and
+  # release-please writes every other copy of it.
+  version = lib.pipe ./.github/release-please-manifest.json [
+    builtins.readFile
+    builtins.fromJSON
+    (lib.getAttr ".")
+  ];
 
   src = ./.;
 
