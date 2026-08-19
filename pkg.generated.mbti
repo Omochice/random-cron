@@ -24,6 +24,7 @@ pub fn seed(UInt64, UInt64) -> Bytes
 pub(all) enum Schedule {
   Daily
   Weekly
+  Monthly
 } derive(Eq, @debug.Debug)
 
 // Type aliases

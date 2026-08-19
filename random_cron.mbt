@@ -3,6 +3,7 @@
 pub(all) enum Schedule {
   Daily
   Weekly
+  Monthly
 } derive(Debug, Eq)
 
 ///|
@@ -13,6 +14,7 @@ pub fn parse_schedule(word : String) -> Schedule? {
   match word {
     "daily" => Some(Daily)
     "weekly" => Some(Weekly)
+    "monthly" => Some(Monthly)
     _ => None
   }
 }
@@ -26,7 +28,7 @@ pub fn generate(schedule : Schedule, pick : (Int) -> Int) -> String {
   let minute = pick(60)
   let hour = pick(24)
   let day_of_week = match schedule {
-    Daily => "*"
+    Daily | Monthly => "*"
     Weekly => pick(7).to_string()
   }
   "\{minute} \{hour} * * \{day_of_week}"
