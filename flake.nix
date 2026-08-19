@@ -140,11 +140,17 @@
             ghalint
             zizmor
           ];
+          # The manifest format the project uses is only understood by recent
+          # toolchains, so the one the flake pins is the one to develop against.
+          moonbit = nixpkgs.lib.optionals (builtins.elem system moonbitSystems) [
+            pkgs.moonbit-bin.moonbit.latest
+          ];
           # keep-sorted end
           default = [
             treefmt.config.build.wrapper
           ]
-          ++ actions;
+          ++ actions
+          ++ moonbit;
         };
       in
       {
