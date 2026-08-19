@@ -58,3 +58,8 @@ test "the adapter never returns a value outside the requested bound" {
 test "two different moments produce two different seeds" {
   assert_not_eq(@random_cron.seed(1), @random_cron.seed(2))
 }
+
+///|
+test "a seed is 32 bytes long, as ChaCha8 requires" {
+  assert_eq(@random_cron.seed(0).length(), 32)
+}
