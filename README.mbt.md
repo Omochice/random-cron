@@ -7,8 +7,9 @@ the period they belong to, instead of having every machine fire on the hour.
 ## Usage
 
 The command takes one positional argument naming the schedule. A `daily`
-schedule fixes nothing but the minute and the hour, while a `weekly` schedule
-also fixes the day of the week.
+schedule fixes nothing but the minute and the hour, a `weekly` schedule also
+fixes the day of the week, and a `monthly` schedule fixes the day of the month
+instead.
 
 ```console
 $ random-cron daily
@@ -16,7 +17,13 @@ $ random-cron daily
 
 $ random-cron weekly
 37 4 * * 3
+
+$ random-cron monthly
+37 4 12 * *
 ```
+
+The day of the month is drawn from 1 to 28, never later, so that a monthly job
+fires in every month rather than skipping the short ones.
 
 An invocation naming no schedule, or naming one the program does not know, is
 reported and exits with status 2. The report goes to standard output rather than

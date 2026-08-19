@@ -88,7 +88,7 @@ pub fn command() -> @argparse.Command {
     positionals=[
       @argparse.PositionArg(
         "schedule",
-        about="One of: daily, weekly",
+        about="One of: daily, weekly, monthly",
         num_args=@argparse.ValueRange::single(),
       ),
     ],
