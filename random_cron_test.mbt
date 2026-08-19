@@ -12,3 +12,14 @@ test "\"weekly\" parses to the weekly schedule" {
 test "an unknown word fails to parse" {
   inspect(@random_cron.parse_schedule("yearly"), content="None")
 }
+
+///|
+/// A random source pinned to the lowest value any range can produce.
+fn lowest(_limit : Int) -> Int {
+  0
+}
+
+///|
+test "a daily schedule at the lowest random values" {
+  assert_eq(@random_cron.generate(@random_cron.Daily, lowest), "0 0 * * *")
+}
