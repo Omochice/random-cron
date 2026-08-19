@@ -51,6 +51,11 @@ test "a weekly schedule at the highest random values" {
 }
 
 ///|
+test "a monthly schedule at the lowest random values" {
+  assert_eq(@random_cron.generate(@random_cron.Monthly, lowest), "0 0 1 * *")
+}
+
+///|
 test "the adapter never returns a value outside the requested bound" {
   let pick = @random_cron.picker(@random.Rand::new())
   for _ in 0..<200 {
