@@ -34,3 +34,8 @@ fn highest(limit : Int) -> Int {
 test "a daily schedule at the highest random values" {
   assert_eq(@random_cron.generate(@random_cron.Daily, highest), "59 23 * * *")
 }
+
+///|
+test "a weekly schedule at the lowest random values" {
+  assert_eq(@random_cron.generate(@random_cron.Weekly, lowest), "0 0 * * 0")
+}
