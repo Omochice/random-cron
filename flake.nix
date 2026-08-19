@@ -76,10 +76,19 @@
           in
           {
             settings.global.excludes = [ ];
-            settings.formatter.rumdl-format.options = [
-              "--config"
-              (toString rumdlConfig)
-            ];
+            settings.formatter = {
+              rumdl-format.options = [
+                "--config"
+                (toString rumdlConfig)
+              ];
+            }
+            // pkgs.lib.optionalAttrs supportsMoonbit {
+              moonfmt = {
+                command = "${moonbit}/bin/moon";
+                options = [ "fmt" ];
+                includes = [ "*.mbt" ];
+              };
+            };
             programs = {
               # keep-sorted start block=yes
               keep-sorted.enable = true;
