@@ -9,6 +9,7 @@ pub fn parse_schedule(String) -> Schedule?
 // Types and methods
 pub(all) enum Schedule {
   Daily
+  Weekly
 }
 pub impl Eq for Schedule
 pub impl Show for Schedule

@@ -2,6 +2,7 @@
 /// A recurrence that a cron expression can be generated for.
 pub(all) enum Schedule {
   Daily
+  Weekly
 } derive(Show, Eq)
 
 ///|
@@ -11,6 +12,7 @@ pub(all) enum Schedule {
 pub fn parse_schedule(word : String) -> Schedule? {
   match word {
     "daily" => Some(Daily)
+    "weekly" => Some(Weekly)
     _ => None
   }
 }
