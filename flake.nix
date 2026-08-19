@@ -53,6 +53,7 @@
         };
         supportsMoonbit = builtins.elem system moonbitSystems;
         moonbit = pkgs.moonbit-bin.moonbit.latest;
+        random-cron = pkgs.callPackage ./package.nix { inherit moonbit; };
         treefmt = treefmt-nix.lib.evalModule pkgs (
           { ... }:
           let
@@ -201,6 +202,11 @@
                 touch $out
               '';
           # keep-sorted end
+        }
+        // pkgs.lib.optionalAttrs supportsMoonbit {
+          # Not a check of its own: `nix flake check` builds `checks` but only
+          # evaluates `packages`, and the package already runs `moon test`.
+          build = random-cron;
         };
       in
       {
@@ -217,6 +223,12 @@
         ];
         formatter = treefmt.config.build.wrapper;
         # keep-sorted end
+      }
+      // nixpkgs.lib.optionalAttrs supportsMoonbit {
+        packages = {
+          default = random-cron;
+          inherit random-cron;
+        };
       }
     );
 }

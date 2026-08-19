@@ -1,0 +1,32 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Omochice/random_cron"
+
+import {
+  "moonbitlang/core/argparse",
+  "moonbitlang/core/debug",
+  "moonbitlang/core/random",
+}
+
+// Values
+pub fn command() -> @argparse.Command
+
+pub fn generate(Schedule, (Int) -> Int) -> String
+
+pub fn parse_schedule(String) -> Schedule?
+
+pub fn picker(@random.Rand) -> (Int) -> Int
+
+pub fn seed(UInt64, UInt64) -> Bytes
+
+// Errors
+
+// Types and methods
+pub(all) enum Schedule {
+  Daily
+  Weekly
+  Monthly
+} derive(Eq, @debug.Debug)
+
+// Type aliases
+
+// Traits

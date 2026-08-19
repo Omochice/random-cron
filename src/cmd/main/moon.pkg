@@ -1,0 +1,7 @@
+import {
+  "Omochice/random_cron" @lib,
+  "moonbitlang/core/env",
+  "moonbitlang/core/random",
+}
+
+pkgtype(kind: "executable")

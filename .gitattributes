@@ -1,0 +1,3 @@
+# `moon.mod` is TOML, but no linguist rule claims that filename, so GitHub
+# renders it as plain text.
+moon.mod linguist-language=TOML
