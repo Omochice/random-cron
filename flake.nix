@@ -52,6 +52,9 @@
             nur-packages.overlays.default
           ];
         };
+        supportsMoonbit = builtins.elem system moonbitSystems;
+        moonbit = pkgs.moonbit-bin.moonbit.latest;
+        random-cron = pkgs.callPackage ./package.nix { inherit moonbit; };
         treefmt = treefmt-nix.lib.evalModule pkgs (
           { ... }:
           let
@@ -141,15 +144,13 @@
           ];
           # Not whatever is installed: older toolchains do not recognise the
           # manifest format the project uses.
-          moonbit = nixpkgs.lib.optionals (builtins.elem system moonbitSystems) [
-            pkgs.moonbit-bin.moonbit.latest
-          ];
+          toolchain = nixpkgs.lib.optionals supportsMoonbit [ moonbit ];
           # keep-sorted end
           default = [
             treefmt.config.build.wrapper
           ]
           ++ actions
-          ++ moonbit;
+          ++ toolchain;
         };
       in
       {
@@ -202,18 +203,11 @@
         formatter = treefmt.config.build.wrapper;
         # keep-sorted end
       }
-      // nixpkgs.lib.optionalAttrs (builtins.elem system moonbitSystems) (
-        let
-          random-cron = pkgs.callPackage ./package.nix {
-            moonbit = pkgs.moonbit-bin.moonbit.latest;
-          };
-        in
-        {
-          packages = {
-            default = random-cron;
-            inherit random-cron;
-          };
-        }
-      )
+      // nixpkgs.lib.optionalAttrs supportsMoonbit {
+        packages = {
+          default = random-cron;
+          inherit random-cron;
+        };
+      }
     );
 }
