@@ -1,5 +1,5 @@
 {
-  description = "sample description";
+  description = "Generate a random cron expression for a schedule";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixpkgs-unstable";
