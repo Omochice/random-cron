@@ -26,6 +26,7 @@ pub fn generate(schedule : Schedule, pick : (Int) -> Int) -> String {
   let minute = pick(60)
   let hour = pick(24)
   match schedule {
-    Daily | Weekly => "\{minute} \{hour} * * *"
+    Daily => "\{minute} \{hour} * * *"
+    Weekly => "\{minute} \{hour} * * \{pick(7)}"
   }
 }
