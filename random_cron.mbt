@@ -41,16 +41,22 @@ pub fn picker(rand : @random.Rand) -> (Int) -> Int {
 }
 
 ///|
-/// Derives a ChaCha8 seed from `moment`, a point in time.
+/// Derives a ChaCha8 seed from `moment`, a point in time, and `nonce`, a value
+/// that separates two runs starting within the same moment.
 ///
 /// ChaCha8 falls back to a constant seed, which would make every run of the
 /// program produce the same expression, so the seed is varied by the moment the
-/// program starts. The eight octets of `moment` occupy the front of the seed and
-/// the rest is left zeroed, since ChaCha8 only requires the seed to be 32 bytes.
-pub fn seed(moment : UInt64) -> Bytes {
+/// program starts. A moment alone is not enough: the native clock resolves to
+/// whole seconds, so two runs in the same second would still agree.
+///
+/// The octets of `moment` and `nonce` occupy the front of the seed and the rest
+/// is left zeroed, since ChaCha8 only requires the seed to be 32 bytes.
+pub fn seed(moment : UInt64, nonce : UInt64) -> Bytes {
   Bytes::makei(32, fn(i) {
     if i < 8 {
       (moment >> (i * 8)).to_byte()
+    } else if i < 16 {
+      (nonce >> ((i - 8) * 8)).to_byte()
     } else {
       b'\x00'
     }

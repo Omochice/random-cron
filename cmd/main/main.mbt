@@ -7,6 +7,14 @@
 extern "c" fn exit(code : Int) -> Unit = "exit"
 
 ///|
+/// Reports the process identifier of this run.
+///
+/// It separates two runs that start within the same second, which the clock
+/// behind `@env.now()` cannot distinguish on this backend.
+#cfg(any(target="native", target="llvm"))
+extern "c" fn getpid() -> Int = "getpid"
+
+///|
 /// Reports `message` and ends the process with a failure code.
 ///
 /// The trailing `panic` is never reached; it only gives the function a return
@@ -24,7 +32,9 @@ fn main {
   let word = matches.values.get("schedule").unwrap()[0]
   match @lib.parse_schedule(word) {
     Some(schedule) => {
-      let generator = @random.Rand::chacha8(seed=@lib.seed(@env.now()))
+      let generator = @random.Rand::chacha8(
+        seed=@lib.seed(@env.now(), getpid().to_uint64()),
+      )
       println(@lib.generate(schedule, @lib.picker(generator)))
     }
     None => die("unknown schedule: \{word}")
