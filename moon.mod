@@ -10,6 +10,6 @@ license = "Apache-2.0"
 
 keywords = [ ]
 
-description = ""
+description = "Generate a random cron expression for a schedule"
 
 preferred_target = "native"
