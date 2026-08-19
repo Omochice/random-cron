@@ -56,12 +56,12 @@ test "the adapter never returns a value outside the requested bound" {
 
 ///|
 test "two different moments produce two different seeds" {
-  assert_not_eq(@random_cron.seed(1), @random_cron.seed(2))
+  assert_not_eq(@random_cron.seed(1, 0), @random_cron.seed(2, 0))
 }
 
 ///|
 test "a seed is 32 bytes long, as ChaCha8 requires" {
-  assert_eq(@random_cron.seed(0).length(), 32)
+  assert_eq(@random_cron.seed(0, 0).length(), 32)
 }
 
 ///|
@@ -74,4 +74,9 @@ test "an invocation with no schedule argument is rejected" {
 test "an invocation naming a schedule yields that word" {
   let matches = @random_cron.command().parse(argv=["weekly"])
   assert_eq(matches.values.get("schedule"), Some(["weekly"]))
+}
+
+///|
+test "two runs starting within the same moment produce different seeds" {
+  assert_not_eq(@random_cron.seed(1, 1), @random_cron.seed(1, 2))
 }
