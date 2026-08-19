@@ -1,6 +1,8 @@
-// import {
-//   "Omochice/random_cron" @lib,
-// }
+import {
+  "Omochice/random_cron" @lib,
+  "moonbitlang/core/env",
+  "moonbitlang/core/random",
+}
 
 options(
   "is-main": true,
