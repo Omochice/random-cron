@@ -43,8 +43,8 @@ nix build
 ./result/bin/random-cron daily
 ```
 
-That toolchain is distributed as binaries for `x86_64-linux`, `x86_64-darwin`
-and `aarch64-darwin` only, so the package is exposed on those systems alone.
+That toolchain is distributed as binaries for a few platforms only, so the
+package is exposed on `x86_64-linux` and `aarch64-darwin` alone.
 
 ## Library
 
