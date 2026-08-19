@@ -55,6 +55,27 @@
         "type": "github"
       }
     },
+    "moonbit-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "treefmt-nix": "treefmt-nix"
+      },
+      "locked": {
+        "lastModified": 1787108448,
+        "narHash": "sha256-5DQHRh7jwKGvhRQaBp+18E4qgjrIww5nRN73YQzNzSs=",
+        "owner": "moonbit-community",
+        "repo": "moonbit-overlay",
+        "rev": "c2200e6684355322bad58d6b6df9d5aa6a834a57",
+        "type": "github"
+      },
+      "original": {
+        "owner": "moonbit-community",
+        "repo": "moonbit-overlay",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1787052956,
@@ -76,7 +97,7 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "treefmt-nix": "treefmt-nix"
+        "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
         "lastModified": 1787063501,
@@ -96,9 +117,10 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "git-hooks": "git-hooks",
+        "moonbit-overlay": "moonbit-overlay",
         "nixpkgs": "nixpkgs",
         "nur-packages": "nur-packages",
-        "treefmt-nix": "treefmt-nix_2"
+        "treefmt-nix": "treefmt-nix_3"
       }
     },
     "systems": {
@@ -119,6 +141,27 @@
     "treefmt-nix": {
       "inputs": {
         "nixpkgs": [
+          "moonbit-overlay",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1786901030,
+        "narHash": "sha256-WSFCsDSE5ffgD2MqzkM2CYjeFiKhRF/dJUN8uedb6YE=",
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "rev": "27b3b12a8e6375f28ebe122f07d230ca5459bbfa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "treefmt-nix_2": {
+      "inputs": {
+        "nixpkgs": [
           "nur-packages",
           "nixpkgs"
         ]
@@ -137,7 +180,7 @@
         "type": "github"
       }
     },
-    "treefmt-nix_2": {
+    "treefmt-nix_3": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"

@@ -16,6 +16,10 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    moonbit-overlay = {
+      url = "github:moonbit-community/moonbit-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -26,13 +30,26 @@
       flake-utils,
       nur-packages,
       git-hooks,
+      moonbit-overlay,
     }:
+    let
+      # The overlay wraps the binaries MoonBit distributes, which cover these
+      # three platforms only; every other system throws on evaluation.
+      moonbitSystems = [
+        # keep-sorted start
+        "aarch64-darwin"
+        "x86_64-darwin"
+        "x86_64-linux"
+        # keep-sorted end
+      ];
+    in
     flake-utils.lib.eachDefaultSystem (
       system:
       let
         pkgs = import nixpkgs {
           inherit system;
           overlays = [
+            moonbit-overlay.overlays.default
             nur-packages.overlays.default
           ];
         };
@@ -180,5 +197,16 @@
         formatter = treefmt.config.build.wrapper;
         # keep-sorted end
       }
+      // nixpkgs.lib.optionalAttrs (builtins.elem system moonbitSystems) (
+        let
+          random-cron = pkgs.callPackage ./package.nix { };
+        in
+        {
+          packages = {
+            default = random-cron;
+            inherit random-cron;
+          };
+        }
+      )
     );
 }
