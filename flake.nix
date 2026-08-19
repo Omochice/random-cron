@@ -84,7 +84,7 @@
             }
             // pkgs.lib.optionalAttrs supportsMoonbit {
               moonfmt = {
-                command = "${moonbit}/bin/moon";
+                command = "${pkgs.lib.getExe' moonbit "moon"}";
                 options = [ "fmt" ];
                 includes = [ "*.mbt" ];
               };
