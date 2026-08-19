@@ -152,10 +152,7 @@
           ++ actions
           ++ toolchain;
         };
-      in
-      {
-        # keep-sorted start block=yes
-        checks = {
+        checkPackages = {
           # keep-sorted start
           actions =
             pkgs.runCommand "check-actions"
@@ -190,7 +187,16 @@
                 touch $out
               '';
           # keep-sorted end
+        }
+        // nixpkgs.lib.optionalAttrs supportsMoonbit {
+          # Not a check of its own: `nix flake check` builds `checks` but only
+          # evaluates `packages`, and the package already runs `moon test`.
+          build = random-cron;
         };
+      in
+      {
+        # keep-sorted start block=yes
+        checks = checkPackages;
         devShells = pkgs.lib.pipe devPackages [
           (pkgs.lib.attrsets.mapAttrs (
             name: buildInputs:
