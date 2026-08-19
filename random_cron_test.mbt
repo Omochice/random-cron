@@ -63,3 +63,9 @@ test "two different moments produce two different seeds" {
 test "a seed is 32 bytes long, as ChaCha8 requires" {
   assert_eq(@random_cron.seed(0).length(), 32)
 }
+
+///|
+test "an invocation with no schedule argument is rejected" {
+  let outcome = try? @random_cron.command().parse(argv=[])
+  assert_true(outcome is Err(_))
+}
