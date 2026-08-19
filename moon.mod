@@ -2,7 +2,7 @@ name = "Omochice/random_cron"
 
 version = "0.1.0"
 
-readme = "README.mbt.md"
+readme = "README.md"
 
 repository = "https://github.com/Omochice/random-cron"
 
