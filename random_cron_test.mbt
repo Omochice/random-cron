@@ -39,3 +39,8 @@ test "a daily schedule at the highest random values" {
 test "a weekly schedule at the lowest random values" {
   assert_eq(@random_cron.generate(@random_cron.Weekly, lowest), "0 0 * * 0")
 }
+
+///|
+test "a weekly schedule at the highest random values" {
+  assert_eq(@random_cron.generate(@random_cron.Weekly, highest), "59 23 * * 6")
+}
