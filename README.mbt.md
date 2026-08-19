@@ -19,7 +19,10 @@ $ random-cron weekly
 ```
 
 An invocation naming no schedule, or naming one the program does not know, is
-reported and exits with status 2.
+reported and exits with status 2. The report goes to standard output rather than
+standard error, because the core library offers no way to write to standard
+error, so redirecting the output of a failed invocation into a crontab would
+place the message in that file.
 
 ## Building
 
