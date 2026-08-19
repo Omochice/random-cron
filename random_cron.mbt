@@ -3,7 +3,7 @@
 pub(all) enum Schedule {
   Daily
   Weekly
-} derive(Show, Eq)
+} derive(Debug, Eq)
 
 ///|
 /// Parses a schedule word such as `"daily"` into a `Schedule`.
@@ -66,11 +66,11 @@ pub fn seed(moment : UInt64, nonce : UInt64) -> Bytes {
 ///|
 /// The command line specification of the program.
 pub fn command() -> @argparse.Command {
-  @argparse.Command::new(
+  @argparse.Command(
     "random-cron",
     about="Generate a random cron expression for a schedule",
     positionals=[
-      @argparse.PositionArg::new(
+      @argparse.PositionArg(
         "schedule",
         about="One of: daily, weekly",
         num_args=@argparse.ValueRange::single(),

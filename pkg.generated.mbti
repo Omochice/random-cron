@@ -3,6 +3,7 @@ package "Omochice/random_cron"
 
 import {
   "moonbitlang/core/argparse",
+  "moonbitlang/core/debug",
   "moonbitlang/core/random",
 }
 
@@ -23,11 +24,8 @@ pub fn seed(UInt64, UInt64) -> Bytes
 pub(all) enum Schedule {
   Daily
   Weekly
-}
-pub impl Eq for Schedule
-pub impl Show for Schedule
+} derive(Eq, @debug.Debug)
 
 // Type aliases
 
 // Traits
-

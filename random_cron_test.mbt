@@ -1,16 +1,16 @@
 ///|
 test "\"daily\" parses to the daily schedule" {
-  inspect(@random_cron.parse_schedule("daily"), content="Some(Daily)")
+  assert_eq(@random_cron.parse_schedule("daily"), Some(@random_cron.Daily))
 }
 
 ///|
 test "\"weekly\" parses to the weekly schedule" {
-  inspect(@random_cron.parse_schedule("weekly"), content="Some(Weekly)")
+  assert_eq(@random_cron.parse_schedule("weekly"), Some(@random_cron.Weekly))
 }
 
 ///|
 test "an unknown word fails to parse" {
-  inspect(@random_cron.parse_schedule("yearly"), content="None")
+  assert_eq(@random_cron.parse_schedule("yearly"), None)
 }
 
 ///|
@@ -66,8 +66,11 @@ test "a seed is 32 bytes long, as ChaCha8 requires" {
 
 ///|
 test "an invocation with no schedule argument is rejected" {
-  let outcome = try? @random_cron.command().parse(argv=[])
-  assert_true(outcome is Err(_))
+  try @random_cron.command().parse(argv=[]) catch {
+    _ => ()
+  } noraise {
+    _ => fail("expected the invocation to be rejected")
+  }
 }
 
 ///|
