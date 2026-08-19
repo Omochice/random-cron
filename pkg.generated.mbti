@@ -12,6 +12,8 @@ pub fn parse_schedule(String) -> Schedule?
 
 pub fn picker(@random.Rand) -> (Int) -> Int
 
+pub fn seed(UInt64) -> Bytes
+
 // Errors
 
 // Types and methods

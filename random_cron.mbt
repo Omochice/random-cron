@@ -39,3 +39,20 @@ pub fn generate(schedule : Schedule, pick : (Int) -> Int) -> String {
 pub fn picker(rand : @random.Rand) -> (Int) -> Int {
   fn(limit) { rand.int(limit~) }
 }
+
+///|
+/// Derives a ChaCha8 seed from `moment`, a point in time.
+///
+/// ChaCha8 falls back to a constant seed, which would make every run of the
+/// program produce the same expression, so the seed is varied by the moment the
+/// program starts. The eight octets of `moment` occupy the front of the seed and
+/// the rest is left zeroed, since ChaCha8 only requires the seed to be 32 bytes.
+pub fn seed(moment : UInt64) -> Bytes {
+  Bytes::makei(32, fn(i) {
+    if i < 8 {
+      (moment >> (i * 8)).to_byte()
+    } else {
+      b'\x00'
+    }
+  })
+}
