@@ -9,6 +9,11 @@ test "\"weekly\" parses to the weekly schedule" {
 }
 
 ///|
+test "\"monthly\" parses to the monthly schedule" {
+  assert_eq(@random_cron.parse_schedule("monthly"), Some(@random_cron.Monthly))
+}
+
+///|
 test "an unknown word fails to parse" {
   assert_eq(@random_cron.parse_schedule("yearly"), None)
 }
