@@ -53,3 +53,8 @@ test "the adapter never returns a value outside the requested bound" {
     assert_true(day_of_week >= 0 && day_of_week < 7)
   }
 }
+
+///|
+test "two different moments produce two different seeds" {
+  assert_not_eq(@random_cron.seed(1), @random_cron.seed(2))
+}
