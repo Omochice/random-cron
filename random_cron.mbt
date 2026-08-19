@@ -20,17 +20,15 @@ pub fn parse_schedule(word : String) -> Schedule? {
 }
 
 ///|
-/// Generates a cron expression for `schedule`.
-///
-/// `pick` draws a random integer in `0 ..< limit`. It is injected so that the
-/// caller owns the source of randomness and callers under test can pin it.
+/// Generates a cron expression for `schedule`, drawing each random field with
+/// `pick`, which returns a value in `0 ..< limit`.
 pub fn generate(schedule : Schedule, pick : (Int) -> Int) -> String {
   let minute = pick(60)
   let hour = pick(24)
   let day_of_month = match schedule {
     Daily | Weekly => "*"
-    // Cron numbers the days of the month from 1, and a job placed past the 28th
-    // would skip February and, past the 30th, the short months as well.
+    // Not the full 1 to 31 the field allows: a job past the 28th would skip
+    // February, and past the 30th the short months as well.
     Monthly => (pick(28) + 1).to_string()
   }
   let day_of_week = match schedule {
@@ -41,24 +39,17 @@ pub fn generate(schedule : Schedule, pick : (Int) -> Int) -> String {
 }
 
 ///|
-/// Adapts `rand` into the drawing function `generate` expects.
-///
-/// The returned function draws a value in `0 ..< limit`.
+/// Adapts `rand` into the drawing function `generate` expects, returning values
+/// in `0 ..< limit`.
 pub fn picker(rand : @random.Rand) -> (Int) -> Int {
   fn(limit) { rand.int(limit~) }
 }
 
 ///|
-/// Derives a ChaCha8 seed from `moment`, a point in time, and `nonce`, a value
-/// that separates two runs starting within the same moment.
+/// Derives a 32 byte ChaCha8 seed from `moment`, a point in time, and `nonce`.
 ///
-/// ChaCha8 falls back to a constant seed, which would make every run of the
-/// program produce the same expression, so the seed is varied by the moment the
-/// program starts. A moment alone is not enough: the native clock resolves to
-/// whole seconds, so two runs in the same second would still agree.
-///
-/// The octets of `moment` and `nonce` occupy the front of the seed and the rest
-/// is left zeroed, since ChaCha8 only requires the seed to be 32 bytes.
+/// Not `moment` alone: the native clock resolves to whole seconds, so two runs
+/// within one second would seed alike.
 pub fn seed(moment : UInt64, nonce : UInt64) -> Bytes {
   Bytes::makei(32, fn(i) {
     if i < 8 {
@@ -72,10 +63,7 @@ pub fn seed(moment : UInt64, nonce : UInt64) -> Bytes {
 }
 
 ///|
-/// The released version of the program.
-///
-/// release-please rewrites this line when it prepares a release, which is what
-/// the trailing annotation marks; the number is not maintained by hand.
+/// Rewritten by release-please through the trailing annotation, not by hand.
 let version : String = "0.1.0" // x-release-please-version
 
 ///|

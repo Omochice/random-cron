@@ -1,22 +1,15 @@
 ///|
-/// Ends the process with `code`.
-///
-/// The core library exposes no exit, so the C one is taken directly, the same
-/// way `moonbitlang/core/argparse` reaches for it.
+/// Taken from C because the core library exposes no exit of its own.
 #cfg(any(target="native", target="llvm"))
 extern "c" fn exit(code : Int) -> Unit = "exit"
 
 ///|
-/// Reports the process identifier of this run.
-///
-/// It separates two runs that start within the same second, which the clock
-/// behind `@env.now()` cannot distinguish on this backend.
+/// Seeds alongside the clock, which resolves to whole seconds on this backend
+/// and so cannot tell two runs in one second apart.
 #cfg(any(target="native", target="llvm"))
 extern "c" fn getpid() -> Int = "getpid"
 
 ///|
-/// Reports `message` and ends the process with a failure code.
-///
 /// The trailing `panic` is never reached; it only gives the function a return
 /// type that fits wherever a value is expected.
 fn[T] die(message : String) -> T {
@@ -26,7 +19,6 @@ fn[T] die(message : String) -> T {
 }
 
 ///|
-/// Prints a random cron expression for the schedule named on the command line.
 fn main {
   let matches = @lib.command().parse() catch { error => die(error.to_string()) }
   let word = matches.values.get("schedule").unwrap()[0]
