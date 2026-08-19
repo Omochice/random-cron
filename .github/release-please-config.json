@@ -14,7 +14,7 @@
         },
         {
           "type": "generic",
-          "path": "random_cron.mbt"
+          "path": "src/random_cron.mbt"
         }
       ]
     }

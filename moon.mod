@@ -12,4 +12,6 @@ keywords = [ ]
 
 description = "Generate a random cron expression for a schedule"
 
+source = "src"
+
 preferred_target = "native"
