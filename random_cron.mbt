@@ -64,11 +64,19 @@ pub fn seed(moment : UInt64, nonce : UInt64) -> Bytes {
 }
 
 ///|
+/// The released version of the program.
+///
+/// release-please rewrites this line when it prepares a release, which is what
+/// the trailing annotation marks; the number is not maintained by hand.
+let version : String = "0.1.0" // x-release-please-version
+
+///|
 /// The command line specification of the program.
 pub fn command() -> @argparse.Command {
   @argparse.Command(
     "random-cron",
     about="Generate a random cron expression for a schedule",
+    version~,
     positionals=[
       @argparse.PositionArg(
         "schedule",
