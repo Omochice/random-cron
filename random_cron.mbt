@@ -27,11 +27,17 @@ pub fn parse_schedule(word : String) -> Schedule? {
 pub fn generate(schedule : Schedule, pick : (Int) -> Int) -> String {
   let minute = pick(60)
   let hour = pick(24)
+  let day_of_month = match schedule {
+    Daily | Weekly => "*"
+    // Cron numbers the days of the month from 1, and a job placed past the 28th
+    // would skip February and, past the 30th, the short months as well.
+    Monthly => (pick(28) + 1).to_string()
+  }
   let day_of_week = match schedule {
     Daily | Monthly => "*"
     Weekly => pick(7).to_string()
   }
-  "\{minute} \{hour} * * \{day_of_week}"
+  "\{minute} \{hour} \{day_of_month} * \{day_of_week}"
 }
 
 ///|
