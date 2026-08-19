@@ -1,4 +1,4 @@
-# Omochice/random_cron
+# random-cron
 
 `random-cron` prints a cron expression whose fields are drawn at random within the ranges a given schedule leaves free.
 It exists to spread periodic jobs over the period they belong to, instead of having every machine fire on the hour.
