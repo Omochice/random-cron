@@ -56,3 +56,19 @@ pub fn seed(moment : UInt64) -> Bytes {
     }
   })
 }
+
+///|
+/// The command line specification of the program.
+pub fn command() -> @argparse.Command {
+  @argparse.Command::new(
+    "random-cron",
+    about="Generate a random cron expression for a schedule",
+    positionals=[
+      @argparse.PositionArg::new(
+        "schedule",
+        about="One of: daily, weekly",
+        num_args=@argparse.ValueRange::single(),
+      ),
+    ],
+  )
+}
