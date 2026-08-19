@@ -57,7 +57,10 @@ test "a monthly schedule at the lowest random values" {
 
 ///|
 test "a monthly schedule at the highest random values" {
-  assert_eq(@random_cron.generate(@random_cron.Monthly, highest), "59 23 28 * *")
+  assert_eq(
+    @random_cron.generate(@random_cron.Monthly, highest),
+    "59 23 28 * *",
+  )
 }
 
 ///|
