@@ -48,7 +48,6 @@ stdenv.mkDerivation {
     platforms = [
       # keep-sorted start
       "aarch64-darwin"
-      "x86_64-darwin"
       "x86_64-linux"
       # keep-sorted end
     ];

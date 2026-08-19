@@ -33,12 +33,12 @@
       moonbit-overlay,
     }:
     let
-      # The overlay wraps the binaries MoonBit distributes, which cover these
-      # three platforms only; every other system throws on evaluation.
+      # The overlay wraps the binaries MoonBit distributes, which reach
+      # `x86_64-darwin` as well, but nixpkgs 26.11 dropped that system, so only
+      # these two remain buildable. Every other system throws on evaluation.
       moonbitSystems = [
         # keep-sorted start
         "aarch64-darwin"
-        "x86_64-darwin"
         "x86_64-linux"
         # keep-sorted end
       ];
