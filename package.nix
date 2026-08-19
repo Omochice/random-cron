@@ -13,9 +13,9 @@ stdenv.mkDerivation {
     moonbit
   ];
 
-  # `moon` keeps its caches under $HOME, which the sandbox leaves pointing at an
-  # unwritable path. The export outlives this phase, so the check phase inherits
-  # it too.
+  # Not left to the sandbox default: `moon` keeps caches under $HOME, which
+  # points at an unwritable path there. The export outlives this phase, so the
+  # check phase inherits it.
   preBuild = ''
     export HOME="$NIX_BUILD_TOP/moon-home"
     mkdir -p "$HOME"

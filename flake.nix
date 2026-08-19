@@ -33,9 +33,8 @@
       moonbit-overlay,
     }:
     let
-      # The overlay wraps the binaries MoonBit distributes, which reach
-      # `x86_64-darwin` as well, but nixpkgs 26.11 dropped that system, so only
-      # these two remain buildable. Every other system throws on evaluation.
+      # Not every default system: the overlay throws on evaluation elsewhere,
+      # and `x86_64-darwin`, which it does cover, was dropped by nixpkgs 26.11.
       moonbitSystems = [
         # keep-sorted start
         "aarch64-darwin"
@@ -140,8 +139,8 @@
             ghalint
             zizmor
           ];
-          # The manifest format the project uses is only understood by recent
-          # toolchains, so the one the flake pins is the one to develop against.
+          # Not whatever is installed: older toolchains do not recognise the
+          # manifest format the project uses.
           moonbit = nixpkgs.lib.optionals (builtins.elem system moonbitSystems) [
             pkgs.moonbit-bin.moonbit.latest
           ];
