@@ -97,3 +97,6 @@ spec:
     workflow_permissions: read
     can_approve_pull_requests: false
     fork_pr_approval: first_time_contributors
+  variables:
+    - name: RELEASE_CLIENT_ID
+      value: Iv23liwM30lqoERe9vXr
