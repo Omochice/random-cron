@@ -57,7 +57,9 @@
         treefmt = treefmt-nix.lib.evalModule pkgs (
           { ... }:
           {
-            settings.global.excludes = [ ];
+            settings.global.excludes = [
+              "CHANGELOG.md"
+            ];
             settings.formatter = {
               tombi = {
                 command = pkgs.lib.getExe pkgs.tombi;
