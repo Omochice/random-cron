@@ -1,0 +1,93 @@
+name: release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions: {}
+
+jobs:
+  release-please:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    environment: release
+    permissions: {}
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        id: app-token
+        with:
+          client-id: ${{ vars.RELEASE_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5
+        id: release
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          config-file: .github/release-please-config.json
+          manifest-file: .github/release-please-manifest.json
+
+  build-release:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created == 'true' }}
+    timeout-minutes: 30
+    runs-on: ${{ matrix.runner }}
+    environment: release
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        include:
+          - runner: ubuntu-latest
+            target: x86_64-linux
+          - runner: macos-latest
+            target: aarch64-darwin
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-nix
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        id: app-token
+        with:
+          client-id: ${{ vars.RELEASE_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_PRIVATE_KEY }}
+          permission-contents: write
+      - name: Build and upload binary
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          TAG_NAME: ${{ needs.release-please.outputs.tag_name }}
+          TARGET: ${{ matrix.target }}
+        run: |
+          nix build --print-build-logs .#random-cron
+          binary="random-cron-${TARGET}"
+          cp result/bin/random-cron "${binary}"
+          gh release upload "${TAG_NAME}" "${binary}" --clobber
+
+  publish:
+    needs:
+      - release-please
+      - build-release
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    environment: release
+    permissions: {}
+    steps:
+      - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        id: app-token
+        with:
+          client-id: ${{ vars.RELEASE_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_PRIVATE_KEY }}
+          permission-contents: write
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG_NAME: ${{ needs.release-please.outputs.tag_name }}
+        run: gh release edit "${TAG_NAME}" --draft=false
